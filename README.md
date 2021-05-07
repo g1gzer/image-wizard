@@ -1,2 +1,2 @@
 # image-wizard
-simple photo filter
+github pages link: 
