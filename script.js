@@ -50,15 +50,16 @@ if (6 <= currentDate.getHours() && currentDate.getHours() <= 11) {
 
 let AccumArr = []; // pixabay images src accumulator
 let pixabayUrl = `https://pixabay.com/api/?key=${API_KEY}&q=${currentDayTime}&image_type=photo&pretty=true&safesearch=true&orientation=horizontal&order=popular&min_height=1080`; //pixabay API src
-fetch(pixabayUrl)
-    .then(response => response.json())
-    .then(result => {
-        result.hits.forEach(el => {
-            AccumArr.push(el.largeImageURL);
-        })
-        drawImage(AccumArr[0]);
-    });
 
+async function fetchPixabay() {
+    const response = await fetch(pixabayUrl);
+    const result = await response.json()
+    await result.hits.forEach(el => {
+        AccumArr.push(el.largeImageURL);
+    })
+    drawImage(AccumArr[0]);
+}
+fetchPixabay();
 
 // Canvas drawImage func
 
