@@ -1,2 +1,2 @@
 # image-wizard
-github pages link: 
+github pages deploy: https://g1gzer.github.io/image-wizard/
