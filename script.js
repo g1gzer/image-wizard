@@ -13,7 +13,7 @@ const context = canvasBuffer.getContext('2d');
 const download = document.getElementById('download');
 
 
-const API_KEY = '21398887-696efe5fc51247b1eed336ea2'; //pixabay API key
+const API_KEY = 'TOZLUGwokWVsi10QIZKhtlHrLRvM3tzI9fuceZlRAP8'; //unsplash API key
 
 
 const themeToggle = document.getElementById('cbx');
@@ -32,7 +32,7 @@ imageLoad.addEventListener('change', (e) => {
     reader.readAsDataURL(file);
 });
 
-// Time control & Pixabay API request
+// Time control & Unsplash API request
 
 let currentDayTime;
 const currentDate = new Date();
@@ -48,18 +48,20 @@ if (6 <= currentDate.getHours() && currentDate.getHours() <= 11) {
 }
 
 
-let AccumArr = []; // pixabay images src accumulator
-let pixabayUrl = `https://pixabay.com/api/?key=${API_KEY}&q=${currentDayTime}&image_type=photo&pretty=true&safesearch=true&orientation=horizontal&order=popular&min_height=1080`; //pixabay API src
 
-async function fetchPixabay() {
-    const response = await fetch(pixabayUrl);
+
+let AccumArr = []; // api images src accumulator
+let unsplashUrl = `https://api.unsplash.com/search/photos?client_id=${API_KEY}&query=${currentDayTime}&content_filter=high&orientation=landscape&per_page=20`; //unsplash API src
+
+async function fetchUnsplash() {
+    const response = await fetch(unsplashUrl);
     const result = await response.json()
-    await result.hits.forEach(el => {
-        AccumArr.push(el.largeImageURL);
+    await result.results.forEach(el => {
+        AccumArr.push(el.urls.regular);
     })
     drawImage(AccumArr[0]);
 }
-fetchPixabay();
+fetchUnsplash();
 
 // Canvas drawImage func
 
@@ -81,7 +83,7 @@ let i = 0; // simple counter
 NextImg.addEventListener("mousedown", () => {
     imageLoad.value = "";  // image load value reset
 
-    if (img.src === AccumArr[19]) {
+    if (img.src === AccumArr[AccumArr.length - 1]) {
         i = 0;
         drawImage(AccumArr[i])
     } else {
